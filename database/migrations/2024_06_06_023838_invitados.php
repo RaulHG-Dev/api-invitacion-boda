@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_invitado', 255)->default('');
             $table->unsignedTinyInteger('numero_invitados')->default(1);
-            $table->string('token_invitado')->default('');
+            $table->uuid('uuid_invitado');
             $table->timestamps();
             $table->softDeletes();
         });
