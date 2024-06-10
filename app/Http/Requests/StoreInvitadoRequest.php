@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 class StoreInvitadoRequest extends FormRequest
 {
@@ -11,7 +14,7 @@ class StoreInvitadoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -38,5 +41,19 @@ class StoreInvitadoRequest extends FormRequest
             'nombre_invitado' => 'nombre de invitado',
             'cantidad_invitados' => 'cantidad de invitados'
         ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.*
+     * @return array
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'errors' => $validator->errors(),
+                'status' => false
+            ], Response::HTTP_BAD_REQUEST)
+        );
     }
 }
