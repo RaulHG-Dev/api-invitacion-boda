@@ -9,7 +9,7 @@ use UnexpectedValueException;
 
 class JWTokenService {
     private $payload = [];
-    private $key = 'sercret123';
+    private $key = '';
 
     public function __construct()
     {
@@ -19,7 +19,8 @@ class JWTokenService {
             'iat' => 1356999524,
             'nbf' => 1357000000
         ];
-        $this->key = 'frase segura';
+
+        $this->key = config('app.key');
     }
     /**
      * Create JW Token

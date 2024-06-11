@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InvitadosController;
+use App\Http\Middleware\JwtVerify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +14,13 @@ Route::get('/h', function(Request $request) {
     return 'hola';
 });
 
-Route::post('invitados', [InvitadosController::class, 'store']);
-Route::get('invitados/{invitado:uuid_invitado}', [InvitadosController::class, 'show']);
+Route::prefix('invitados')->controller(InvitadosController::class)->group(function() {
+    Route::post('/', 'store');
+    Route::get('/{invitado:uuid_invitado}', 'show')->middleware(JwtVerify::class);
+    // Route::get('/{token}', 'verifyToken');
+    // Route::get('/genera-token/{invitado:uuid_invitado}', 'generateJWT');
+    Route::post('/genera-token', 'generateJWT');
+});
+
+
 // Route::get('invitados/{invitado:uuid_invitado}/{dato?}', [InvitadosController::class, 'getInfoInvitado']);
-Route::get('invitados/genera-token/{invitado:uuid_invitado}', [InvitadosController::class, 'generateJWT']);

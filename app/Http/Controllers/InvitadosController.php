@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GenerateTokenRequest;
 use App\Models\Invitado;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -57,6 +58,7 @@ class InvitadosController extends Controller
      */
     public function show(Invitado $invitado)
     {
+        // dd($invitado);
         try {
             return response()->json([
                 'status' => true,
@@ -71,36 +73,15 @@ class InvitadosController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-    /**
      * Generate token for auth user
      * @param Invitado $invitado Invitado object
      * @return JsonResponse
      */
-    public function generateJWT(Invitado $invitado)
+    public function generateJWT(GenerateTokenRequest $request)
     {
-        $data = $invitado->only(['nombre_invitado', 'numero_invitados', 'uuid_invitado']);
+        $data = Invitado::where('uuid_invitado', $request->uuid)
+            ->get()
+            ->only(['nombre_invitado', 'numero_invitados', 'uuid_invitado']);
         $token = $this->jwtService->encodeJWT($data);
         if($token) {
             return response()->json([
@@ -115,5 +96,10 @@ class InvitadosController extends Controller
                 'errors' => 'Ocurrió un problema al generar token.'
             ], Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    public function verifyToken($token = '')
+    {
+        dd($token);
     }
 }
