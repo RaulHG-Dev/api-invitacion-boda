@@ -79,10 +79,11 @@ class InvitadosController extends Controller
      */
     public function generateJWT(GenerateTokenRequest $request)
     {
+        // dd($request->all());
         $data = Invitado::where('uuid_invitado', $request->uuid)
-            ->get()
+            ->first()
             ->only(['nombre_invitado', 'numero_invitados', 'uuid_invitado']);
-        Log::info($data);
+        // dd($data);
         $token = $this->jwtService->encodeJWT($data);
         if($token) {
             return response()->json([
