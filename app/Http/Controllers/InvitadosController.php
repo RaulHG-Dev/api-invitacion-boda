@@ -82,7 +82,7 @@ class InvitadosController extends Controller
         $data = Invitado::where('uuid_invitado', $request->uuid)
             ->get()
             ->only(['nombre_invitado', 'numero_invitados', 'uuid_invitado']);
-        Log::info($data);
+
         $token = $this->jwtService->encodeJWT($data);
         if($token) {
             return response()->json([

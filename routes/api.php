@@ -17,8 +17,6 @@ Route::get('/h', function(Request $request) {
 Route::prefix('invitados')->controller(InvitadosController::class)->group(function() {
     Route::post('/', 'store');
     Route::get('/{invitado:uuid_invitado}', 'show')->middleware(JwtVerify::class);
-    // Route::get('/{token}', 'verifyToken');
-    // Route::get('/genera-token/{invitado:uuid_invitado}', 'generateJWT');
     Route::post('/genera-token', 'generateJWT');
 });
 
