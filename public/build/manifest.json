@@ -1,0 +1,32 @@
+{
+  "_axios-B4uVmeYG.js": {
+    "file": "assets/axios-B4uVmeYG.js",
+    "name": "axios"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-Bw56s3VW.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DdMf69By.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_axios-B4uVmeYG.js"
+    ]
+  },
+  "resources/js/panel.js": {
+    "file": "assets/panel-CHxx-bR3.js",
+    "name": "panel",
+    "src": "resources/js/panel.js",
+    "isEntry": true,
+    "imports": [
+      "_axios-B4uVmeYG.js"
+    ],
+    "css": [
+      "assets/panel-Rwdov7pk.css"
+    ]
+  }
+}
