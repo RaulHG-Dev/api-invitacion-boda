@@ -41,12 +41,10 @@ class ComentariosInvitadosController extends Controller
      */
     public function store(StoreComentariosInvitadosRequest $request)
     {
-        // dd($request->all());
         try {
             preg_match('/Bearer\s(\S+)/', $request->header('authorization'), $matches);
             $jwt = $matches[1];
             $jwtInfo = $this->jwtService->decodeJWT($jwt);
-            // dd($jwtInfo['data']->uuid_invitado);
             if($jwtInfo) {
                 $invitado = Invitado::where('uuid_invitado', $jwtInfo['data']->uuid_invitado)
                     ->first();
