@@ -104,4 +104,22 @@ class InvitadosController extends Controller
     {
         dd($token);
     }
+
+    public function delete(Invitado $invitado)
+    {
+        try {
+            DB::transaction(function () use($invitado) {
+                $invitado->delete();
+            });
+
+            return response()->json([
+                'status' => true,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'errors' => 'Ocurrió un problema al eliminar registro.'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
 }

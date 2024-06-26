@@ -2,6 +2,9 @@ import axios from "axios";
 import DataTable from "datatables.net-dt";
 import "datatables.net-dt/css/dataTables.dataTables.css";
 import Swal from "sweetalert2";
+import { Modal } from "flowbite";
+
+const BUTTON = 'BUTTON';
 
 document.addEventListener('DOMContentLoaded', () => {
     let table = new DataTable('#invitados', {
@@ -9,7 +12,31 @@ document.addEventListener('DOMContentLoaded', () => {
         language: {
             url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
         },
+        columnDefs: [{
+            className: 'dt-center',
+            targets: [1]
+        }, ],
+        columns: [{
+            width: '50%'
+        }, {
+            width: '30%'
+        }, {
+            width: '20%'
+        }]
     });
+});
+
+document.addEventListener('click', (e) => {
+    if (e.target.nodeName === BUTTON) {
+        if (e.target.classList.contains('btn-edit')) {
+            editEvent(e);
+        } else if (e.target.classList.contains('btn-delete')) {
+            deleteEvent(e);
+        } else if(e.target.classList.contains('btn-close-medit')) {
+            const modal = getModal();
+            modal.hide();
+        }
+    }
 });
 
 document.getElementById('form-invitado').addEventListener('submit', (e) => {
@@ -20,23 +47,113 @@ document.getElementById('form-invitado').addEventListener('submit', (e) => {
         title: 'Registrando, espere...'
     });
     Swal.showLoading();
-    axios.post('/invitados', formData)
-        .then(({data}) => {
+    axios.post('./invitados', formData)
+        .then(({
+            data
+        }) => {
             console.log(data);
-            if(data.status) {
+            if (data.status) {
                 Swal.fire({
                     title: '¡Se registró correctamente!',
                     icon: 'success',
-                    confirmButtonText: 'Aceptar'
+                    timer: 3000,
+                    timerProgressBar: true,
+                    confirmButtonText: 'Aceptar',
                 }).then(() => {
                     location.reload();
                 });
             } else {
-
+                Toast.fire({
+                    icon: "info",
+                    title: "Ocurrió un problema al registrar invitado, intenta de nuevo."
+                });
             }
         })
         .catch((error) => {
-            console.log(error);
-
+            Toast.fire({
+                icon: "info",
+                title: "Ocurrió un problema al registrar invitado, intenta de nuevo."
+            });
         });
 });
+
+const editEvent = (e) => {
+    const {
+        uuid
+    } = e.target.dataset;
+    const modal = getModal();
+    modal.show();
+}
+
+const getModal = () => {
+    const $targetEl = document.getElementById('default-modal-edit', {
+        closable: true
+    });
+    const modal = new Modal($targetEl);
+    return modal;
+}
+/**
+ * The `deleteEvent` function prompts the user to confirm deletion of a record and then calls a
+ * function to delete the record if confirmed.
+ * @param e - The `e` parameter in the `deleteEvent` function is typically an event object that is
+ * passed when the function is called in response to an event, such as a click event. In this case, it
+ * is used to access the `uuid` property from the `dataset` of the target element
+ */
+const deleteEvent = (e) => {
+    const {
+        uuid
+    } = e.target.dataset;
+
+    Swal.fire({
+        title: "¿Desea eliminar este registro?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Sí, eliminar",
+        denyButtonText: `Cancelar`
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Eliminando registro...',
+                allowEscapeKey: false,
+                allowOutsideClick: false
+            });
+            Swal.showLoading();
+            eliminarRegistro(uuid);
+        }
+    });
+}
+
+/**
+ * The function `eliminarRegistro` sends a DELETE request to remove a guest record and displays a
+ * success message or an error message accordingly.
+ * @param uuid - The `uuid` parameter in the `eliminarRegistro` function is a unique identifier for the
+ * record of the guest that you want to delete from the database. It is used to specify which guest
+ * record should be deleted when making a DELETE request to the server.
+ */
+const eliminarRegistro = (uuid) => {
+    axios.delete(`./invitados/${uuid}`)
+        .then(({data}) => {
+            if(data.status) {
+                Swal.fire({
+                    title: 'Eliminado correctamente',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    confirmButtonText: 'Aceptar',
+                }).then(() => {
+                    location.reload();
+                });
+            } else {
+                Toast.fire({
+                    icon: "info",
+                    title: "Ocurrió un problema al eliminar invitado, intenta de nuevo."
+                });
+            }
+        })
+        .catch(() => {
+            Toast.fire({
+                icon: "info",
+                title: "Ocurrió un problema al eliminar invitado, intenta de nuevo."
+            });
+        })
+}

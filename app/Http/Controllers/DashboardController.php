@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $invitados = Invitado::select('nombre_invitado', 'numero_invitados')
+        $invitados = Invitado::select('uuid_invitado', 'nombre_invitado', 'numero_invitados')
             ->orderBy('created_at', 'desc')
             ->get();
 

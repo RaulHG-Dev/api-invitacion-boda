@@ -3,27 +3,35 @@
     "file": "assets/axios-B4uVmeYG.js",
     "name": "axios"
   },
+  "_index-BbWY1nCv.js": {
+    "file": "assets/index-BbWY1nCv.js",
+    "name": "index"
+  },
+  "_index-DIuehnop.js": {
+    "file": "assets/index-DIuehnop.js",
+    "name": "index"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-Bw56s3VW.css",
+    "file": "assets/app-DXmi8D5N.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DdMf69By.js",
+    "file": "assets/app-CuRs-LSE.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_axios-B4uVmeYG.js"
+      "_index-BbWY1nCv.js"
     ]
   },
   "resources/js/panel.js": {
-    "file": "assets/panel-CHxx-bR3.js",
+    "file": "assets/panel-Cy5QdTYX.js",
     "name": "panel",
     "src": "resources/js/panel.js",
     "isEntry": true,
     "imports": [
-      "_axios-B4uVmeYG.js"
+      "_index-BbWY1nCv.js"
     ],
     "css": [
       "assets/panel-Rwdov7pk.css"

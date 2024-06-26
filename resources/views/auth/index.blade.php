@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <title>S&A | Panel Administrador</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-[url('/images/background.jpeg')] bg-cover bg-no-repeat w-max h-max bg-center">
+<body class="bg-[url('/images/background.webp')] bg-cover bg-no-repeat w-max h-max bg-center">
     <div class="flex w-screen h-screen justify-center items-cente">
         <div class="bg-[#262626] mx-auto my-auto py-7 px-10 bg-opacity-80 w-12/12 md:w-3/12">
             <img src="{{ asset('images/services2-1.png') }}" alt="" class="mx-auto my-auto">
