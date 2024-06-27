@@ -2,9 +2,22 @@ import axios from "axios";
 import DataTable from "datatables.net-dt";
 import "datatables.net-dt/css/dataTables.dataTables.css";
 import Swal from "sweetalert2";
-import { Modal } from "flowbite";
+import {
+    Modal
+} from "flowbite";
 
 const BUTTON = 'BUTTON';
+const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     let table = new DataTable('#invitados', {
@@ -15,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         columnDefs: [{
             className: 'dt-center',
             targets: [1]
-        }, ],
+        }],
         columns: [{
             width: '50%'
         }, {
@@ -32,7 +45,7 @@ document.addEventListener('click', (e) => {
             editEvent(e);
         } else if (e.target.classList.contains('btn-delete')) {
             deleteEvent(e);
-        } else if(e.target.classList.contains('btn-close-medit')) {
+        } else if (e.target.classList.contains('btn-close-medit')) {
             const modal = getModal();
             modal.hide();
         }
@@ -51,7 +64,6 @@ document.getElementById('form-invitado').addEventListener('submit', (e) => {
         .then(({
             data
         }) => {
-            console.log(data);
             if (data.status) {
                 Swal.fire({
                     title: '¡Se registró correctamente!',
@@ -77,12 +89,88 @@ document.getElementById('form-invitado').addEventListener('submit', (e) => {
         });
 });
 
+document.getElementById('form-edit-invitado').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    Swal.fire({
+        title: 'Actualizando, espere...'
+    });
+    Swal.showLoading();
+    // for (const value of formData.values()) {
+    //     console.log(value);
+    //   }
+    axios.post('./invitados/actualizar', formData)
+        .then(({
+            data
+        }) => {
+            if (data.status) {
+                Swal.fire({
+                    title: '¡Se actualizó correctamente!',
+                    icon: 'success',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    confirmButtonText: 'Aceptar',
+                }).then(() => {
+                    location.reload();
+                });
+            } else {
+                Toast.fire({
+                    icon: "info",
+                    title: "Ocurrió un problema al actualizar invitado, intenta de nuevo."
+                });
+            }
+        })
+        .catch((error) => {
+            Toast.fire({
+                icon: "info",
+                title: "Ocurrió un problema al actualizar invitado, intenta de nuevo."
+            });
+        });
+});
 const editEvent = (e) => {
     const {
         uuid
     } = e.target.dataset;
-    const modal = getModal();
-    modal.show();
+
+    Swal.fire({
+        title: 'Obteniendo información, espere...'
+    });
+    Swal.showLoading();
+
+    axios.get(`./invitados/${uuid}`)
+        .then(({
+            data
+        }) => {
+            if (data.status) {
+                const {
+                    data: data_modal
+                } = data;
+                // Get inputs
+                const input_uuid = document.getElementById('uuid_invitado');
+                const input_nombre = document.getElementById('nombre_invitado_edit');
+                const input_cantidad = document.getElementById('cantidad_invitados_edit');
+                // Set values
+                input_uuid.value = data_modal.uuid_invitado;
+                input_nombre.value = data_modal.nombre_invitado;
+                input_cantidad.value = data_modal.numero_invitados;
+                // Open modal
+                Swal.close();
+                const modal = getModal();
+                modal.show();
+            } else {
+                Toast.fire({
+                    icon: "info",
+                    title: "Ocurrió un problema al obtener información de invitado, intenta de nuevo."
+                });
+            }
+        })
+        .catch((error) => {
+            Toast.fire({
+                icon: "info",
+                title: "Ocurrió un problema al obtener información de invitado, intenta de nuevo."
+            });
+        });
 }
 
 const getModal = () => {
@@ -133,8 +221,10 @@ const deleteEvent = (e) => {
  */
 const eliminarRegistro = (uuid) => {
     axios.delete(`./invitados/${uuid}`)
-        .then(({data}) => {
-            if(data.status) {
+        .then(({
+            data
+        }) => {
+            if (data.status) {
                 Swal.fire({
                     title: 'Eliminado correctamente',
                     timer: 3000,

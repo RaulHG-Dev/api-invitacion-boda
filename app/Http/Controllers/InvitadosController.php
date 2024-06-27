@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreInvitadoRequest;
+use App\Http\Requests\UpdateInvitadoRequest;
 use App\Services\JWTokenService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\InvalidCastException;
 use Illuminate\Database\Eloquent\MissingAttributeException;
@@ -62,7 +64,7 @@ class InvitadosController extends Controller
         try {
             return response()->json([
                 'status' => true,
-                'data' => $invitado->only('nombre_invitado', 'numero_invitados')
+                'data' => $invitado->only('uuid_invitado', 'nombre_invitado', 'numero_invitados')
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([
@@ -100,11 +102,6 @@ class InvitadosController extends Controller
         }
     }
 
-    public function verifyToken($token = '')
-    {
-        dd($token);
-    }
-
     public function delete(Invitado $invitado)
     {
         try {
@@ -119,6 +116,32 @@ class InvitadosController extends Controller
             return response()->json([
                 'status' => false,
                 'errors' => 'Ocurrió un problema al eliminar registro.'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function update(UpdateInvitadoRequest $request)
+    {
+        try {
+            DB::transaction(function() use($request) {
+                $isUpdated = Invitado::where('uuid_invitado', $request->uuid_invitado)
+                    ->update([
+                        'nombre_invitado' => $request->nombre_invitado,
+                        'numero_invitados' => $request->cantidad_invitados
+                    ]);
+
+                if(!$isUpdated) {
+                    throw new Exception('Ocurrió un problema al actualizar', 500);
+                }
+            });
+
+            return response()->json([
+                'status' => true,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'errors' => 'Ocurrió un problema al actualizar registro.'
             ], Response::HTTP_BAD_REQUEST);
         }
     }

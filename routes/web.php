@@ -17,7 +17,9 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/panel', [DashboardController::class, 'index'])->name('panel')->middleware('auth');
 Route::prefix('invitados')->controller(InvitadosController::class)->group(function() {
     Route::post('/', 'store');
+    Route::get('/{invitado:uuid_invitado}', 'show');
     Route::delete('/{invitado:uuid_invitado}', 'delete');
+    Route::post('/actualizar', 'update');
 });
 
 Route::get('/pass', function() {
