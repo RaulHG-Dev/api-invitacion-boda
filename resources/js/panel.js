@@ -6,6 +6,7 @@ import {
 } from "flowbite";
 import html2canvas from "html2canvas";
 import "datatables.net-dt/css/dataTables.dataTables.css";
+import ClipboardJS from "clipboard";
 
 const BUTTON = 'BUTTON';
 const Toast = Swal.mixin({
@@ -21,7 +22,7 @@ const Toast = Swal.mixin({
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    let table = new DataTable('#invitados', {
+    new DataTable('#invitados', {
         ordering: false,
         language: {
             url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
@@ -38,7 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
             width: '20%'
         }]
     });
-
+    let clipboard = new ClipboardJS('.btn-copy');
+    clipboard.on('success', function (e) {
+        Toast.fire({
+            icon: "success",
+            title: "¡Se copió correctamente url!"
+        });
+    });
     addEventsCloseModal();
 });
 
@@ -50,6 +57,8 @@ document.addEventListener('click', (e) => {
             deleteEvent(e);
         } else if(e.target.classList.contains('btn-qr')) {
             generateQR(e);
+        } else if(e.target.classList.contains('btn-copy')) {
+
         }
     }
 });
@@ -333,3 +342,7 @@ const generateQR = (e) => {
             });
         });
 }
+
+// const copy = () => {
+
+// }

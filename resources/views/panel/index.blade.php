@@ -97,7 +97,8 @@
                             <div class="flex flex-col gap-2">
                                 <button type="button" class="rounded py-1 bg-blue-700 hover:bg-blue-800 text-white btn-edit" data-uuid="{{ $invitado->uuid_invitado }}">Editar</button>
                                 <button type="button" class="rounded py-1 bg-red-700 hover:bg-red-800 text-white btn-delete" data-uuid="{{ $invitado->uuid_invitado }}">Eliminar</button>
-                                <button type="button" class="rounded py-1 bg-violet-700 hover:bg-violet-800 text-white btn-qr" data-uuid="{{ $invitado->uuid_invitado }}">Descargar QR</button>
+                                <button type="button" class="rounded py-1 bg-violet-700 hover:bg-violet-800 text-white btn-qr" data-uuid="{{ $invitado->uuid_invitado }}">Generar QR</button>
+                                <button type="button" class="rounded py-1 bg-green-700 hover:bg-green-800 text-white btn-copy" data-clipboard-text="{{ config('app.url_front') . $invitado->uuid_invitado }}">Copiar Url Invitación</button>
                             </div>
                         </td>
                     </tr>
