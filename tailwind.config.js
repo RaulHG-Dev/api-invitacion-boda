@@ -9,7 +9,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                'GreatVibes': ["Great Vibes"]
+                'GreatVibes': ["Great Vibes"],
+                'Cinzel': ['Cinzel']
             }
         },
     },

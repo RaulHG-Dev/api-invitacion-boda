@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GenerateTokenRequest;
+use Exception;
+use LogicException;
 use App\Models\Invitado;
+use App\Models\DynamicData;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\JWTokenService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\GenerateTokenRequest;
 use App\Http\Requests\StoreInvitadoRequest;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Requests\UpdateInvitadoRequest;
-use App\Services\JWTokenService;
-use Exception;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Database\Eloquent\InvalidCastException;
-use Illuminate\Database\Eloquent\MissingAttributeException;
-use Illuminate\Database\LazyLoadingViolationException;
-use LogicException;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Database\Eloquent\InvalidCastException;
+use Illuminate\Database\LazyLoadingViolationException;
+use Illuminate\Database\Eloquent\MissingAttributeException;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class InvitadosController extends Controller
 {
@@ -60,7 +62,6 @@ class InvitadosController extends Controller
      */
     public function show(Invitado $invitado)
     {
-        // dd($invitado);
         try {
             return response()->json([
                 'status' => true,
@@ -81,11 +82,10 @@ class InvitadosController extends Controller
      */
     public function generateJWT(GenerateTokenRequest $request)
     {
-        // dd($request->all());
         $data = Invitado::where('uuid_invitado', $request->uuid)
             ->first()
             ->only(['nombre_invitado', 'numero_invitados', 'uuid_invitado']);
-        // dd($data);
+
         $token = $this->jwtService->encodeJWT($data);
         if($token) {
             return response()->json([
@@ -143,6 +143,37 @@ class InvitadosController extends Controller
                 'status' => false,
                 'errors' => 'Ocurrió un problema al actualizar registro.'
             ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function generateQR(Invitado $invitado)
+    {
+        try {
+            $urlToQr = config('app.url_front') . $invitado->uuid_invitado;
+            $qr = QrCode::backgroundColor(242, 241, 228)->color(109, 110, 96)
+                ->size(150)->style('round')
+                ->generate($urlToQr);
+
+            // Datos dinámicos
+            $dynamicData = DynamicData::select('key', 'value')->get()->toArray();
+            $finalArray = [];
+            foreach ($dynamicData as $value) {
+                $finalArray[$value['key']] = $value['value'];
+            }
+
+            return response()->json([
+                'status' => true,
+                'data' => [
+                    'qr' => (string)$qr,
+                    'invitado' => $invitado->nombre_invitado,
+                    'dynamicData' => $finalArray
+                ]
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'errors' => 'Ocurrió un problema interno en servidor.'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

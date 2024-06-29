@@ -20,8 +20,9 @@ Route::prefix('invitados')->controller(InvitadosController::class)->group(functi
     Route::get('/{invitado:uuid_invitado}', 'show');
     Route::delete('/{invitado:uuid_invitado}', 'delete');
     Route::post('/actualizar', 'update');
+    Route::get('generar-qr/{invitado:uuid_invitado}', 'generateQR')->name('generateQr');
 });
 
 Route::get('/pass', function() {
-    return bcrypt('admin');
+    return bcrypt('@dm1n_s3cr3t');
 });

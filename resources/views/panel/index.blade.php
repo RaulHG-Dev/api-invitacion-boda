@@ -1,5 +1,48 @@
 @extends('layout.layout')
 
+@section('styles')
+<style>
+    @font-face {
+        font-family: 'Cinzel';
+        src: url({{ storage_path('fonts/Cinzel.ttf') }});
+    }
+    .fecha {
+        /* margin-top: 5px; */
+    }
+
+    .nombre-semana {
+        font-size: 25px;
+    }
+
+    /* .dia {
+        font-size: 80px;
+        padding-left: 10px;
+        padding-right: 10px;
+    } */
+
+    /* .mes, .anio {
+        padding-left: 10px;
+        padding-right: 10px;
+    } */
+
+    /* .mes {
+        border-right: 2px solid #6D6E60;
+    }
+
+    .anio {
+        border-left: 2px solid #6D6E60;
+    } */
+    .lugar {
+        /* line-height: 0.9; */
+    }
+    .text-leyenda {
+        font-size: 15px;
+        line-height: 0.5;
+        /* padding-top: 8px; */
+    }
+</style>
+@endsection
+
 @section('content')
 <main class="p-6 sm:p-10 space-y-6">
     <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
@@ -54,7 +97,7 @@
                             <div class="flex flex-col gap-2">
                                 <button type="button" class="rounded py-1 bg-blue-700 hover:bg-blue-800 text-white btn-edit" data-uuid="{{ $invitado->uuid_invitado }}">Editar</button>
                                 <button type="button" class="rounded py-1 bg-red-700 hover:bg-red-800 text-white btn-delete" data-uuid="{{ $invitado->uuid_invitado }}">Eliminar</button>
-                                <button type="button" class="rounded py-1 bg-violet-700 hover:bg-violet-800 text-white">Descargar QR</button>
+                                <button type="button" class="rounded py-1 bg-violet-700 hover:bg-violet-800 text-white btn-qr" data-uuid="{{ $invitado->uuid_invitado }}">Descargar QR</button>
                             </div>
                         </td>
                     </tr>
@@ -67,6 +110,7 @@
 
     @include('panel.includes.modal-create')
     @include('panel.includes.modal-edit')
+    @include('panel.includes.modal-qr')
 </main>
 @endsection
 

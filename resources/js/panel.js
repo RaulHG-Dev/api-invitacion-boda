@@ -1,10 +1,11 @@
 import axios from "axios";
 import DataTable from "datatables.net-dt";
-import "datatables.net-dt/css/dataTables.dataTables.css";
 import Swal from "sweetalert2";
 import {
     Modal
 } from "flowbite";
+import html2canvas from "html2canvas";
+import "datatables.net-dt/css/dataTables.dataTables.css";
 
 const BUTTON = 'BUTTON';
 const Toast = Swal.mixin({
@@ -37,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             width: '20%'
         }]
     });
+
+    addEventsCloseModal();
 });
 
 document.addEventListener('click', (e) => {
@@ -45,9 +48,8 @@ document.addEventListener('click', (e) => {
             editEvent(e);
         } else if (e.target.classList.contains('btn-delete')) {
             deleteEvent(e);
-        } else if (e.target.classList.contains('btn-close-medit')) {
-            const modal = getModal();
-            modal.hide();
+        } else if(e.target.classList.contains('btn-qr')) {
+            generateQR(e);
         }
     }
 });
@@ -128,6 +130,46 @@ document.getElementById('form-edit-invitado').addEventListener('submit', (e) => 
             });
         });
 });
+
+document.getElementById('descargar').addEventListener('click', (e) => {
+    const card = document.querySelector('#qr-card');
+
+    html2canvas(card, {
+        scale: 2
+    })
+    .then(function (canvas) {
+        // console.log(canvas);
+        // document.body.appendChild(canvas);
+        var a = document.createElement('a');
+        // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+        a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        a.download = 'somefilename.png';
+        a.click();
+    });
+});
+/**
+ * The function `addEventsCloseModal` adds event listeners to buttons that close specific modals when
+ * clicked.
+ */
+const addEventsCloseModal = () => {
+    const closeModalQR = Object.values(document.querySelectorAll('button[data-modal-hide="modal-qr"]'));
+    const closeModalEdit = Object.values(document.querySelectorAll('button[data-modal-hide="default-modal-edit"]'));
+
+    for (const button of closeModalQR) {
+        button.addEventListener('click', (e) => {
+            const modal = getModal('modal-qr');
+            modal.hide();
+        });
+    }
+
+    for (const button of closeModalEdit) {
+        button.addEventListener('click', (e) => {
+            const modal = getModal('default-modal-edit');
+            modal.hide();
+        });
+    }
+}
+
 const editEvent = (e) => {
     const {
         uuid
@@ -156,7 +198,7 @@ const editEvent = (e) => {
                 input_cantidad.value = data_modal.numero_invitados;
                 // Open modal
                 Swal.close();
-                const modal = getModal();
+                const modal = getModal('default-modal-edit');
                 modal.show();
             } else {
                 Toast.fire({
@@ -173,8 +215,8 @@ const editEvent = (e) => {
         });
 }
 
-const getModal = () => {
-    const $targetEl = document.getElementById('default-modal-edit', {
+const getModal = (idModal = '') => {
+    const $targetEl = document.getElementById(idModal, {
         closable: true
     });
     const modal = new Modal($targetEl);
@@ -246,4 +288,48 @@ const eliminarRegistro = (uuid) => {
                 title: "Ocurrió un problema al eliminar invitado, intenta de nuevo."
             });
         })
+}
+
+const generateQR = (e) => {
+    const {
+        uuid
+    } = e.target.dataset;
+    Swal.fire({
+        title: 'Obteniendo información, espere...'
+    });
+    Swal.showLoading();
+
+    axios.get(`./invitados/generar-qr/${uuid}`)
+        .then(({
+            data
+        }) => {
+            if(data.status) {
+                const {data:datos} = data;
+                const {dynamicData} = datos;
+                document.getElementById('qr-image').innerHTML = datos.qr;
+                document.getElementById('invitado').innerText = datos.invitado;
+                document.querySelector('.nombre-semana').innerText = dynamicData.NOMBRE_DIA;
+                document.querySelector('.mes').innerText = dynamicData.MES_BODA;
+                document.querySelector('.dia').innerText = dynamicData.DIA_BODA;
+                document.querySelector('.anio').innerText = dynamicData.ANIO_BODA;
+                document.querySelector('p.hora-boda').innerText = dynamicData.HORA_BODA;
+                document.querySelector('p.lugar-boda').innerText = dynamicData.LUGAR_BODA;
+
+                Swal.close();
+                const modal = getModal('modal-qr');
+                modal.show();
+            } else {
+                Toast.fire({
+                    icon: "info",
+                    title: "Ocurrió un problema al obtener información de invitado, intenta de nuevo."
+                });
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            Toast.fire({
+                icon: "info",
+                title: "Ocurrió un problema al obtener información de invitado, intenta de nuevo."
+            });
+        });
 }
