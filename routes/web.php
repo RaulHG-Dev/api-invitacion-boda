@@ -25,6 +25,3 @@ Route::prefix('invitados')->controller(InvitadosController::class)->group(functi
 })->middleware('auth');
 
 Route::get('/deseos', [ComentariosInvitadosController::class, 'index'])->name('deseos')->middleware('auth');
-Route::get('/pass', function() {
-    return bcrypt('@dm1n_s3cr3t');
-});
