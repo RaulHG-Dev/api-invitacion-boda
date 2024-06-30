@@ -142,6 +142,8 @@ document.getElementById('form-edit-invitado').addEventListener('submit', (e) => 
 
 document.getElementById('descargar').addEventListener('click', (e) => {
     const card = document.querySelector('#qr-card');
+    const nameFile = e.target.getAttribute('invitado');
+    // const nombreFile = e.target;
 
     html2canvas(card, {
         scale: 2
@@ -152,7 +154,7 @@ document.getElementById('descargar').addEventListener('click', (e) => {
         var a = document.createElement('a');
         // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
         a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-        a.download = 'somefilename.png';
+        a.download = `QR_invitación_${nameFile}.png`;
         a.click();
     });
 });
@@ -323,6 +325,7 @@ const generateQR = (e) => {
                 document.querySelector('.anio').innerText = dynamicData.ANIO_BODA;
                 document.querySelector('p.hora-boda').innerText = dynamicData.HORA_BODA;
                 document.querySelector('p.lugar-boda').innerText = dynamicData.LUGAR_BODA;
+                document.getElementById('descargar').setAttribute('invitado', datos.invitado);
 
                 Swal.close();
                 const modal = getModal('modal-qr');
