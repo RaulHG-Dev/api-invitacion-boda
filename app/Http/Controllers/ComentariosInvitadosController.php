@@ -25,7 +25,11 @@ class ComentariosInvitadosController extends Controller
      */
     public function index()
     {
-        //
+        $comentarios = ComentariosInvitado::select('nombre', 'comentario')
+            ->get();
+        return view('deseos.index',[
+            'comentarios' => $comentarios
+        ]);
     }
 
     /**

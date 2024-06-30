@@ -17,8 +17,14 @@
       "_index-BbWY1nCv.js"
     ]
   },
+  "resources/js/deseos.js": {
+    "file": "assets/deseos-CL-HyTVL.js",
+    "name": "deseos",
+    "src": "resources/js/deseos.js",
+    "isEntry": true
+  },
   "resources/js/panel.js": {
-    "file": "assets/panel-DWoI6FIA.js",
+    "file": "assets/panel-BW98dnCP.js",
     "name": "panel",
     "src": "resources/js/panel.js",
     "isEntry": true,
