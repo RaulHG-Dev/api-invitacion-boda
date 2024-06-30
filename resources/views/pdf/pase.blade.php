@@ -34,7 +34,7 @@
             font-family: 'GreatVibes';
             text-align: center;
             color: #F9A9AC;
-            font-size: 100px;
+            font-size: 80px;
             font-weight: 400;
             line-height: 0.8;
         }
@@ -52,7 +52,7 @@
             margin-right: auto;
         }
         .contenido {
-            margin-top: 230px;
+            margin-top: 200px;
         }
 
         .gral-text {
@@ -69,7 +69,7 @@
         }
 
         .fecha {
-            margin-top: 12px;
+            margin-top: 0px;
         }
 
         .nombre-semana {
@@ -77,7 +77,7 @@
         }
 
         .dia {
-            font-size: 80px;
+            font-size: 50px;
             padding-left: 10px;
             padding-right: 10px;
         }
@@ -95,12 +95,33 @@
             border-left: 2px solid #6D6E60;
         }
         .lugar {
-            line-height: 0.3;
+            line-height: 1.2;
+            font-size: 17px;
         }
         .text-leyenda {
             font-size: 15px;
             line-height: 0.5;
             /* padding-top: 8px; */
+        }
+        strong {
+            font-weight: bold!important;
+            font-size: 25px;
+        }
+
+        div.card {
+            font-size: 15px;
+            border: 1px solid #F9A9AC;
+            border-left: 0.5rem solid #F9A9AC;
+            /* rgb(242, 241, 228); */
+            border-radius: 0px 10px 10px 0px;
+            /* rgb(242, 241, 228); */
+            padding: 5px 10px;
+        }
+        .cita {
+            position: relative;
+            padding-left: 180px!important;
+            padding-right: 180px!important;
+            text-transform: none!important;
         }
     </style>
 </head>
@@ -147,14 +168,26 @@
             </tr>
             <tr>
                 <td class="gral-text text-center lugar">
-                    <p>{{ $dynamicData['HORA_BODA'] }}</p>
-                    <p>{{ $dynamicData['LUGAR_BODA'] }}</p>
+                    <p>{{ $dynamicData['HORA_BODA'] }}<br/>
+                    "JARDÍN CHACAHUA"<br/>ATLACOMULCO, JIUTEPEC, MORELOS.</p>
                 </td>
             </tr>
             <tr>
                 <td class="gral-text text-center text-leyenda">
                     <p>¡Disfruta este día especial con nosotros!</p>
-                    <p>Este pase es válido para hasta <span>{{ $cantidadInvitados }}</span> personas.</p>
+                    <p>
+                        Este pase es válido para hasta <strong>{{ $cantidadInvitados }}</strong> personas.
+                    </p>
+                </td>
+            </tr>
+            <tr class="tr-cita">
+                <td class="gral-text text-center cita">
+                    <div class="card">
+                        <q>
+                            ...y lleven una vida de amor, así como Cristo nos amó y se entregó por nosotros como ofrenda y sacrificio fragante para Dios
+                        </q><br/>
+                        <span>- Efesios 5:2</span>
+                    </div>
                 </td>
             </tr>
         </table>

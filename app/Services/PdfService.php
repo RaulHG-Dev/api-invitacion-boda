@@ -9,6 +9,7 @@ class PdfService {
     {
         $pdf = Pdf::loadView($view, $data);
         $pdf->setPaper('A4');
-        return $pdf->download($data['nombreDoc']);
+        return $pdf->stream($data['nombreDoc']);
+        // return $pdf->download($data['nombreDoc']);
     }
 }
