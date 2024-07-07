@@ -61,13 +61,25 @@
     </div>
     <section class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
         <div class="flex items-center p-8 bg-white shadow rounded-lg">
+            <div class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-pink-600 bg-pink-100 rounded-full mr-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-valentine2 h-8 w-8" viewBox="0 0 16 16">
+                    <path d="M8 6.493c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132M4.25 3a.25.25 0 0 0-.25.25v1.5a.25.25 0 0 0 .5 0V3.5h1.25a.25.25 0 0 0 0-.5zm6 0a.25.25 0 1 0 0 .5h1.25v1.25a.25.25 0 1 0 .5 0v-1.5a.25.25 0 0 0-.25-.25zM4.5 12.25a.25.25 0 1 0-.5 0v1.5c0 .138.112.25.25.25h1.5a.25.25 0 0 0 0-.5H4.5zm7.5 0a.25.25 0 1 0-.5 0v1.25h-1.25a.25.25 0 1 0 0 .5h1.5a.25.25 0 0 0 .25-.25z"/>
+                    <path fill-rule="evenodd" d="M2 1.994v-.042a1 1 0 0 1 .9-.995l9-.9A1 1 0 0 1 13 1a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zM3 2v13h10V2z"/>
+                </svg>
+            </div>
+            <div>
+                <span class="block text-2xl font-bold">{{ $invitados->count() }}</span>
+                <span class="block text-gray-500">Pases Registrados</span>
+            </div>
+        </div>
+        <div class="flex items-center p-8 bg-white shadow rounded-lg">
             <div class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-blue-600 bg-blue-100 rounded-full mr-6">
                 <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
             </div>
             <div>
-                <span class="block text-2xl font-bold">{{ $invitados->count() }}</span>
+                <span class="block text-2xl font-bold">{{ $totalInvitados }}</span>
                 <span class="block text-gray-500">Invitados</span>
             </div>
         </div>
@@ -79,9 +91,9 @@
             <table id="invitados">
                 <thead>
                     <tr>
-                    <th>Invitado</th>
-                    <th>Cantidad Invitados Pase</th>
-                    <th>Opciones</th>
+                        <th>Invitado</th>
+                        <th>Cantidad Invitados Pase</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
