@@ -15,7 +15,7 @@
     <aside class="flex flex-col" :class="{'hidden sm:flex sm:flex-col': window.outerWidth > 768}">
         <a href="#" class="inline-flex items-center justify-center h-20 w-full bg-[#171C30]">
             <span class="text-white text-3xl ml-2 font-GreatVibes flex gap-2" x-show="menu">
-                D<img src="{{ asset('images/icon-heart.png') }}" alt="heart" class="w-9">B
+                D<img src="/images/icon-heart.png" alt="heart" class="w-9">B
             </span>
         </a>
         <div class="flex-grow flex flex-col justify-between text-gray-500 bg-[#171C30]">
@@ -51,7 +51,7 @@
                 </span>
                 <div class="border-l pl-3 ml-3 space-x-1 block">
                     <a
-                        href="{{ route('logout') }}"
+                        href="{{ route('logout', [], false) }}"
                         class="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full block"
                     >
                         <span class="sr-only">Log out</span>

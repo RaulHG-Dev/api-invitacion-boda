@@ -25,7 +25,7 @@
                                 <div class="flex font-GreatVibes items-center gap-2 justify-center">
                                     <span class="text-[38px] font-medium text-[#D96C75]">Daniel</span>
                                     <span>
-                                        <img src="{{ asset('images/services2-1.png') }}" alt="heart" class="w-11">
+                                        <img src="/images/services2-1.png" alt="heart" class="w-11">
                                     </span>
                                     <span class="text-[38px] font-medium text-[#D96C75]">Brenda</span>
                                 </div>
