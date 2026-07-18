@@ -132,13 +132,13 @@
                 <td class="text-center gral-text" style="padding-bottom: 15px;">Nuestra boda</td>
             </tr>
             <tr>
-                <td class="nombre-novios">{{ $dynamicData['NOMBRE_NOVIA'] }}</td>
+                <td class="nombre-novios">{{ $dynamicData['NOMBRE_NOVIO'] }}</td>
             </tr>
             <tr>
                 <td class="text-center gral-text">&</td>
             </tr>
             <tr>
-                <td class="nombre-novios">{{ $dynamicData['NOMBRE_NOVIO'] }}</td>
+                <td class="nombre-novios">{{ $dynamicData['NOMBRE_NOVIA'] }}</td>
             </tr>
             <tr>
                 <td class="text-center gral-text texto-invita">
