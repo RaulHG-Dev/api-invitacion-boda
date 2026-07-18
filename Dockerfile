@@ -33,11 +33,13 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # Permisos
+# Crear TODA la estructura necesaria de storage y bootstrap
 RUN mkdir -p /var/www/html/storage/framework/cache/data \
     && mkdir -p /var/www/html/storage/framework/views \
+    && mkdir -p /var/www/html/storage/framework/sessions \
     && mkdir -p /var/www/html/bootstrap/cache \
     && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+    && chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
 CMD ["apache2-foreground"]
