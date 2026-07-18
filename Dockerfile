@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev libjpeg62-turbo-dev libpng-dev libonig-dev libzip-dev libxml2-dev \
     zip unzip git && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-    # Instalar Node.js y pnpm
+# Instalar Node.js y pnpm
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g pnpm
@@ -45,6 +45,10 @@ RUN mkdir -p /var/www/html/storage/framework/cache/data \
     && mkdir -p /var/www/html/bootstrap/cache \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
+
+RUN pnpm run build
+
+RUN chown -R www-data:www-data /var/www/html/public/build
 
 EXPOSE 80
 CMD ["apache2-foreground"]
