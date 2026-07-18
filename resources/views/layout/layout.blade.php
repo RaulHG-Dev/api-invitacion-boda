@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>S&E | Panel</title>
+    <title>D&B | Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite('resources/css/app.css')
@@ -15,7 +15,7 @@
     <aside class="flex flex-col" :class="{'hidden sm:flex sm:flex-col': window.outerWidth > 768}">
         <a href="#" class="inline-flex items-center justify-center h-20 w-full bg-[#171C30]">
             <span class="text-white text-3xl ml-2 font-GreatVibes flex gap-2" x-show="menu">
-                S<img src="{{ asset('images/icon-heart.png') }}" alt="heart" class="w-9">E
+                D<img src="{{ asset('images/icon-heart.png') }}" alt="heart" class="w-9">B
             </span>
         </a>
         <div class="flex-grow flex flex-col justify-between text-gray-500 bg-[#171C30]">

@@ -6,7 +6,6 @@ use App\Models\DynamicData;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatosDinamicosSeeder extends Seeder
 {
@@ -19,11 +18,11 @@ class DatosDinamicosSeeder extends Seeder
             DB::transaction(function () {
                 DynamicData::create([
                     'key' => 'NOMBRE_NOVIO',
-                    'value' => 'EDUARDO'
+                    'value' => 'DANIEL'
                 ]);
                 DynamicData::create([
                     'key' => 'NOMBRE_NOVIA',
-                    'value' => 'SAMANTA'
+                    'value' => 'BRENDA'
                 ]);
                 DynamicData::create([
                     'key' => 'NOMBRE_DIA',
@@ -31,7 +30,7 @@ class DatosDinamicosSeeder extends Seeder
                 ]);
                 DynamicData::create([
                     'key' => 'MES_BODA',
-                    'value' => 'NOV'
+                    'value' => 'OCT'
                 ]);
                 DynamicData::create([
                     'key' => 'DIA_BODA',
@@ -39,7 +38,7 @@ class DatosDinamicosSeeder extends Seeder
                 ]);
                 DynamicData::create([
                     'key' => 'ANIO_BODA',
-                    'value' => '2024'
+                    'value' => '2026'
                 ]);
                 DynamicData::create([
                     'key' => 'HORA_BODA',
@@ -47,7 +46,7 @@ class DatosDinamicosSeeder extends Seeder
                 ]);
                 DynamicData::create([
                     'key' => 'LUGAR_BODA',
-                    'value' => 'JIUTEPEC, MORELOS'
+                    'value' => 'CUERNAVACA, MORELOS'
                 ]);
             });
         } catch (\Throwable $th) {
