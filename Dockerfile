@@ -30,7 +30,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Instalar dependencias (sin scripts para evitar errores de conexión DB)
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-dev --optimize-autoloader
 
 # Permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
