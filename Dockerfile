@@ -5,6 +5,11 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev libjpeg62-turbo-dev libpng-dev libonig-dev libzip-dev libxml2-dev \
     zip unzip git && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+    # Instalar Node.js y pnpm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g pnpm
+
 # Instalar extensiones PHP
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql bcmath mbstring zip xml
