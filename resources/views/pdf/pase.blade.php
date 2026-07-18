@@ -22,7 +22,7 @@
         body {
             position: relative;
             margin: 0px;
-            background-image: url("/images/boda-pase.jpg");
+            background-image: url("file:///{{ str_replace('\\', '/', public_path('images/boda-pase.jpg')) }}");
             background-repeat: no-repeat;
             background-size: 100% 100%;
             background-position: 0 0;
