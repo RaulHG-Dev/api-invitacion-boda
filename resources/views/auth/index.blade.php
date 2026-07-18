@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>S&E | Panel Administrador</title>
+    <title>D&B | Panel Administrador</title>
     @vite('resources/css/app.css')
 </head>
 <body class="bg-[url('/images/background.webp')] bg-cover bg-no-repeat w-max h-max bg-center">
     <div class="flex w-screen h-screen justify-center items-cente">
         <div class="bg-[#262626] mx-auto my-auto py-7 px-10 bg-opacity-80 w-12/12 md:w-3/12">
-            <img src="{{ asset('images/services2-1.png') }}" alt="" class="mx-auto my-auto">
+            <img src="/images/services2-1.png" alt="" class="mx-auto my-auto">
             <h1 class="font-bold text-2xl text-white pb-2 text-center">Panel Administrativo</h1>
             <hr>
-            <form action="{{route('auth')}}" method="POST">
+            <form action="{{ route('auth', [], false) }}" method="POST">
                 @csrf
                 <div class="mt-5">
                     <label

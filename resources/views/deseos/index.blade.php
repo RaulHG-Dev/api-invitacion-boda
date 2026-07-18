@@ -95,7 +95,7 @@
                     <div class="swiper-wrapper">
                         @forelse ($comentarios as $comentario)
                             <div class="swiper-slide">
-                                <img src="{{ asset('images/testi3-frame.png') }}" alt="contorno" class="img-contorno">
+                                <img src="/images/testi3-frame.png" alt="contorno" class="img-contorno">
                                 <q>{{ $comentario->comentario }}</q><br/>
                                 <p>- {{ $comentario->nombre }}</p>
                             </div>
