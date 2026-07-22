@@ -20,7 +20,7 @@
         "clipboard": "^2.0.11",
         "datatables.net-dt": "^2.0.8",
         "html2canvas": "^1.4.1",
-        "sweetalert2": "^11.12.0",
+        "sweetalert2": "^11.22.4",
         "swiper": "^12.1.2"
     }
 }
