@@ -23,11 +23,11 @@
                             <div class="basis-8/12 text-center">
                                 <p class="text-center font-Cinzel text-xl font-semibold">Nuestra Boda</p>
                                 <div class="flex font-GreatVibes items-center gap-2 justify-center">
-                                    <span class="text-[38px] font-medium text-[#D96C75]">Samanta</span>
+                                    <span class="text-[38px] font-medium text-[#D96C75]">Daniel</span>
                                     <span>
-                                        <img src="{{ asset('images/services2-1.png') }}" alt="heart" class="w-11">
+                                        <img src="/images/services2-1.png" alt="heart" class="w-11">
                                     </span>
-                                    <span class="text-[38px] font-medium text-[#D96C75]">Eduardo</span>
+                                    <span class="text-[38px] font-medium text-[#D96C75]">Brenda</span>
                                 </div>
                                 <p class="text-center font-Cinzel text-sm font-semibold">
                                     <span id="invitado">-Invitado-</span>, ACOMPAÑENNOS A CELEBRAR NUESTRA UNIÓN

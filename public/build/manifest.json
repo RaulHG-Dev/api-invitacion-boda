@@ -1,38 +1,42 @@
 {
-  "_index-BbWY1nCv.js": {
-    "file": "assets/index-BbWY1nCv.js",
-    "name": "index"
+  "_esm-CEpVqAgs.js": {
+    "file": "assets/esm-CEpVqAgs.js",
+    "name": "esm"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DgywarEs.css",
+    "file": "assets/app-DLCTGbb6.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-CuRs-LSE.js",
+    "file": "assets/app-Boq5zfDi.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_index-BbWY1nCv.js"
+      "_esm-CEpVqAgs.js"
     ]
   },
   "resources/js/deseos.js": {
-    "file": "assets/deseos-CL-HyTVL.js",
+    "file": "assets/deseos-DUy7_kxR.js",
     "name": "deseos",
     "src": "resources/js/deseos.js",
     "isEntry": true
   },
   "resources/js/panel.js": {
-    "file": "assets/panel-BW98dnCP.js",
+    "file": "assets/panel-CSIwy4Nl.js",
     "name": "panel",
     "src": "resources/js/panel.js",
     "isEntry": true,
     "imports": [
-      "_index-BbWY1nCv.js"
+      "_esm-CEpVqAgs.js"
     ],
     "css": [
-      "assets/panel-Rwdov7pk.css"
+      "assets/panel-wAxXIH6U.css"
     ]
   }
 }
