@@ -19,6 +19,8 @@ Route::prefix('invitados')->controller(InvitadosController::class)->group(functi
     Route::post('/', 'store');
     Route::get('/{invitado:uuid_invitado}', 'show')->middleware(JwtVerify::class);
     Route::post('/genera-token', 'generateJWT');
+    Route::post('/confirmar-asistencia', 'confirmAttendance')->middleware(JwtVerify::class);
+    Route::get('/validar-aceptacion', 'validateAcceptance')->middleware(JwtVerify::class);
 });
 
 Route::prefix('comentarios-invitados')->controller(ComentariosInvitadosController::class)->group(function() {

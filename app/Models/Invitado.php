@@ -16,7 +16,9 @@ class Invitado extends Model
     protected $fillable = [
         'nombre_invitado',
         'numero_invitados',
-        'uuid_invitado'
+        'uuid_invitado',
+        'acepto_invitacion',
+        'aceptado_en'
     ];
 
     // /**

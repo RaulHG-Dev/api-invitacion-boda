@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use LogicException;
 use App\Models\Invitado;
 use App\Models\DynamicData;
 use Illuminate\Support\Str;
@@ -17,10 +16,6 @@ use App\Http\Requests\StoreInvitadoRequest;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Requests\UpdateInvitadoRequest;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Database\Eloquent\InvalidCastException;
-use Illuminate\Database\LazyLoadingViolationException;
-use Illuminate\Database\Eloquent\MissingAttributeException;
-use Illuminate\Contracts\Container\BindingResolutionException;
 
 class InvitadosController extends Controller
 {
@@ -102,6 +97,54 @@ class InvitadosController extends Controller
         }
     }
 
+    public function confirmAttendance(Request $request)
+    {
+        try {
+            $invitado = $this->getInvitadoFromToken($request);
+
+            if (!$invitado->acepto_invitacion) {
+                $invitado->acepto_invitacion = true;
+                $invitado->aceptado_en = now();
+                $invitado->save();
+            }
+
+            return response()->json([
+                'status' => true,
+                'data' => [
+                    'acepto_invitacion' => $invitado->acepto_invitacion,
+                    'aceptado_en' => $invitado->aceptado_en,
+                ]
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return response()->json([
+                'status' => false,
+                'errors' => 'Ocurrió un problema interno en servidor.'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function validateAcceptance(Request $request)
+    {
+        try {
+            $invitado = $this->getInvitadoFromToken($request);
+
+            return response()->json([
+                'status' => true,
+                'data' => [
+                    'acepto_invitacion' => (bool) $invitado->acepto_invitacion,
+                    'aceptado_en' => $invitado->aceptado_en,
+                ]
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return response()->json([
+                'status' => false,
+                'errors' => 'Ocurrió un problema interno en servidor.'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function delete(Invitado $invitado)
     {
         try {
@@ -175,5 +218,24 @@ class InvitadosController extends Controller
                 'errors' => 'Ocurrió un problema interno en servidor.'
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private function getInvitadoFromToken(Request $request): Invitado
+    {
+        preg_match('/Bearer\s(\S+)/', $request->header('authorization'), $matches);
+        $jwt = $matches[1] ?? '';
+        $jwtInfo = $this->jwtService->decodeJWT($jwt);
+
+        if (!$jwtInfo || empty($jwtInfo['data']->uuid_invitado)) {
+            throw new Exception('No se pudo extraer información de token', Response::HTTP_UNAUTHORIZED);
+        }
+
+        $invitado = Invitado::where('uuid_invitado', $jwtInfo['data']->uuid_invitado)->first();
+
+        if (!$invitado) {
+            throw new Exception('No se encontró el invitado', Response::HTTP_NOT_FOUND);
+        }
+
+        return $invitado;
     }
 }
