@@ -22,7 +22,7 @@ const Toast = Swal.mixin({
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    new DataTable('#invitados', {
+    const invitadosTable = new DataTable('#invitados', {
         ordering: false,
         language: {
             sProcessing: 'Procesando...',
@@ -50,13 +50,30 @@ document.addEventListener('DOMContentLoaded', () => {
             targets: [1]
         }],
         columns: [{
-            width: '50%'
-        }, {
             width: '30%'
         }, {
             width: '20%'
+        }, {
+            width: '20%'
+        }, {
+            width: '30%'
         }]
     });
+
+    const filtroAceptacion = document.getElementById('filtro-aceptacion');
+    if (filtroAceptacion) {
+        filtroAceptacion.addEventListener('change', (event) => {
+            const value = event.target.value;
+
+            if (value === 'all') {
+                invitadosTable.column(2).search('').draw();
+                return;
+            }
+
+            invitadosTable.column(2).search(value, true, false).draw();
+        });
+    }
+
     let clipboard = new ClipboardJS('.btn-copy');
     clipboard.on('success', function (e) {
         Toast.fire({

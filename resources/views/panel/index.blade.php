@@ -83,16 +83,35 @@
                 <span class="block text-gray-500">Invitados</span>
             </div>
         </div>
+        <div class="flex items-center p-8 bg-white shadow rounded-lg">
+            <div class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-emerald-600 bg-emerald-100 rounded-full mr-6">
+                <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <div>
+                <span class="block text-2xl font-bold">{{ $invitacionesAceptadas }}</span>
+                <span class="block text-gray-500">Invitaciones Aceptadas</span>
+            </div>
+        </div>
     </section>
     <section class="grid md:grid-cols-1 xl:grid-cols-1 xl:grid-rows-3 xl:grid-flow-col gap-6">
         <div class="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg">
-            <div class="px-6 py-5 font-semibold border-b border-gray-100">Listado de Invitados</div>
+            <div class="px-6 py-5 font-semibold border-b border-gray-100 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <span>Listado de Invitados</span>
+                <select id="filtro-aceptacion" class="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700">
+                    <option value="all">Todas</option>
+                    <option value="Aceptada">Aceptadas</option>
+                    <option value="Pendiente">Pendientes</option>
+                </select>
+            </div>
             <div class="p-4 flex-grow">
             <table id="invitados">
                 <thead>
                     <tr>
                         <th>Invitado</th>
                         <th>Cantidad Invitados Pase</th>
+                        <th>Aceptación</th>
                         <th>Opciones</th>
                     </tr>
                 </thead>
@@ -104,6 +123,17 @@
                                 <span class="rounded bg-gray-500 text-white px-2 py-1 text-sm">
                                     {{ $invitado->numero_invitados }} personas
                                 </span>
+                            </td>
+                            <td>
+                                @if ($invitado->acepto_invitacion)
+                                    <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-700">
+                                        Aceptada
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-700">
+                                        Pendiente
+                                    </span>
+                                @endif
                             </td>
                             <td>
                                 <div class="flex flex-col gap-2">
