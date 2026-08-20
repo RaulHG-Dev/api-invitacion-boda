@@ -169,7 +169,7 @@
             <tr>
                 <td class="gral-text text-center lugar">
                     <p>{{ $dynamicData['HORA_BODA'] }}<br/>
-                    "JARDÍN CHACAHUA"<br/>ATLACOMULCO, JIUTEPEC, MORELOS.</p>
+                    "JARDÍN LAS PALMAS"<br/>OCOTEPEC, CUERNAVACA, MORELOS.</p>
                 </td>
             </tr>
             <tr>
