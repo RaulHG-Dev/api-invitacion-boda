@@ -76,10 +76,12 @@ COPY --from=vendor /app /var/www/html
 COPY --from=frontend /app/public/build /var/www/html/public/build
 
 RUN mkdir -p storage/framework/cache/data \
-    storage/framework/sessions \
-    storage/framework/views \
-    bootstrap/cache \
-    && chown -R www-data:www-data /var/www/html
+             storage/framework/sessions \
+             storage/framework/views \
+             storage/logs \
+             bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # USER www-data
 
