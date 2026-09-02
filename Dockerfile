@@ -81,7 +81,7 @@ RUN mkdir -p storage/framework/cache/data \
     bootstrap/cache \
     && chown -R www-data:www-data /var/www/html
 
-USER www-data
+# USER www-data
 
 EXPOSE 80
 

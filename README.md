@@ -1,66 +1,248 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Invitación de Boda
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicación backend desarrollada en Laravel para gestionar la invitación digital de una boda. El proyecto permite registrar invitados, generar tokens JWT para acceso seguro, confirmar asistencia, crear pases en PDF, generar códigos QR y recopilar mensajes de los asistentes desde un panel administrativo.
 
-## About Laravel
+## Descripción general
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Este proyecto está pensado para un flujo completo de invitación para un evento con:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- registro de invitados y cantidad de personas asociadas;
+- identificación por UUID para cada invitado;
+- autenticación mediante JWT para endpoints protegidos;
+- confirmación de asistencia;
+- generación de QR con enlace personalizado;
+- generación de pase PDF por invitado;
+- panel administrativo para consultar asistencia y mensajes;
+- almacenamiento de datos dinámicos del evento.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Stack tecnológico
 
-## Learning Laravel
+- PHP 8.2
+- Laravel 13
+- Composer
+- MySQL / base relacional
+- Blade templates
+- JWT con `firebase/php-jwt`
+- Dompdf para generación de PDFs
+- Simple QrCode para códigos QR
+- PHPUnit / Pest
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Estructura principal
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```text
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── ComentariosInvitadosController.php
+│   │   ├── DashboardController.php
+│   │   ├── InvitadosController.php
+│   │   ├── LoginController.php
+│   │   └── PaseController.php
+│   ├── Middleware/
+│   │   └── JwtVerify.php
+│   └── Requests/
+│       ├── GenerateTokenRequest.php
+│       ├── StoreComentariosInvitadosRequest.php
+│       ├── StoreInvitadoRequest.php
+│       └── UpdateInvitadoRequest.php
+├── Models/
+│   ├── ComentariosInvitado.php
+│   ├── DynamicData.php
+│   ├── Invitado.php
+│   └── User.php
+├── Services/
+│   ├── JWTokenService.php
+│   └── PdfService.php
+└── Providers/
+    └── AppServiceProvider.php
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+database/
+├── migrations/
+├── seeders/
+│   ├── DatabaseSeeder.php
+│   └── DatosDinamicosSeeder.php
+└── factories/
 
-## Laravel Sponsors
+resources/
+├── css/
+├── js/
+└── views/
+    ├── deseos/
+    ├── panel/
+    └── pdf/
+        └── pase.blade.php
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+routes/
+├── api.php
+├── web.php
+├── console.php
+```
 
-### Premium Partners
+## Modelos principales
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Invitado
+Representa a cada persona invitada. Guarda:
 
-## Contributing
+- nombre del invitado;
+- cantidad de personas asociadas;
+- UUID único;
+- estado de aceptación;
+- fecha de confirmación.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### DynamicData
+Almacena texto y valores dinámicos del evento (fecha, hora, lugar, mensajes, etc.) que se reutilizan en el QR y en el pase PDF.
 
-## Code of Conduct
+### ComentariosInvitado
+Guarda comentarios o deseos dejados por los invitados.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Funcionalidades del sistema
 
-## Security Vulnerabilities
+### 1. Registro de invitados
+Se crea un invitado con nombre y cantidad de personas. El sistema genera un UUID para identificarlo de forma segura.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 2. Generación de token JWT
+Se genera un JWT con los datos del invitado para permitir acceso a rutas protegidas.
 
-## License
+### 3. Confirmación de asistencia
+El invitado puede confirmar que asistirá. El sistema actualiza el campo `acepto_invitacion` y guarda la fecha.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 4. Validación de aceptación
+Se puede consultar si el invitado ya aceptó o no la invitación.
+
+### 5. Código QR
+Se genera un QR basado en el UUID del invitado y el enlace configurado en `app.url_front`.
+
+### 6. Pase PDF
+Se genera un PDF con el nombre del invitado, la cantidad de personas, y los datos del evento configurados en el sistema.
+
+### 7. Panel administrativo
+La vista `/panel` muestra el listado de invitados, el total de personas y la cantidad de aceptaciones.
+
+### 8. Deseos y mensajes
+Los invitados pueden dejar comentarios y estas entradas quedan almacenadas para revisión desde la vista de administración.
+
+## Endpoints principales
+
+### API
+
+```text
+POST /api/invitados
+POST /api/invitados/genera-token
+GET /api/invitados/{uuid_invitado}
+POST /api/invitados/confirmar-asistencia
+GET /api/invitados/validar-aceptacion
+POST /api/comentarios-invitados
+```
+
+### Web
+
+```text
+GET /
+POST /login
+GET /logout
+GET /panel
+GET /genera-pase/{uuid_invitado}
+GET /invitados/generar-qr/{uuid_invitado}
+GET /deseos
+```
+
+## Servicios clave
+
+### `JWTokenService`
+Encapsula la creación y decodificación de JWT para autenticar invitado en endpoints protegidos.
+
+### `PdfService`
+Genera documentos PDF a partir de vistas Blade con Dompdf.
+
+## Migraciones y datos iniciales
+
+Las migraciones crean las tablas necesarias para:
+
+- invitados;
+- comentarios de invitados;
+- datos dinámicos del evento;
+- tokens personales de Sanctum.
+
+La semilla `DatosDinamicosSeeder.php` añade valores iniciales del evento para ser usados en el pase y la QR.
+
+## Instalación
+
+1. Clona el repositorio.
+
+```bash
+git clone <url-del-repositorio>
+cd api-invitacion-boda
+```
+
+2. Instala dependencias de PHP.
+
+```bash
+composer install
+```
+
+3. Instala dependencias del frontend.
+
+```bash
+npm install
+```
+
+4. Copia el archivo de entorno.
+
+```bash
+cp .env.example .env
+```
+
+5. Genera la clave de la app.
+
+```bash
+php artisan key:generate
+```
+
+6. Configura la base de datos en `.env` y ejecuta migraciones.
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+7. Inicia la aplicación.
+
+```bash
+php artisan serve
+```
+
+8. Si usas Vite para frontend:
+
+```bash
+npm run dev
+```
+
+## Variables de entorno relevantes
+
+```env
+APP_NAME="Invitación de Boda"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nombre_db
+DB_USERNAME=usuario
+DB_PASSWORD=password
+APP_URL_FRONT=http://localhost:5173/
+```
+
+> `APP_URL_FRONT` se usa para construir el enlace dentro del QR.
+
+## Notas de desarrollo
+
+- El flujo principal se basa en el `uuid_invitado`.
+- La autenticación del invitado usa JWT en el header `Authorization: Bearer ...`.
+- El panel administrativo usa auth normal de Laravel con sesión.
+- Los valores del evento se mantienen en base de datos para no hardcodearlos en el código.
+
+## Licencia
+
+Este proyecto se distribuye bajo la licencia MIT.
